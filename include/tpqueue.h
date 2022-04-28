@@ -4,12 +4,14 @@
 
 template<typename T>
 class TPQueue {
- private:
+private:
     struct ITEM {
         T value;
         ITEM* next;
     };
-    ITEM* head, * tail;
+    ITEM* head;
+    ITEM* tail;
+
     ITEM* create(T value) {
         ITEM* item = new ITEM;
         item->value = value;
@@ -17,34 +19,24 @@ class TPQueue {
         return item;
     }
 
- public:
-    TPQueue: head(nullptr), tail(nullptr) {}
-
-    T pop() {
-        ITEM* item = head->next;
-        T value = head->value;
-        delete head;
-        head = temp;
-        return value;
-    }
+public:
+    TPQueue() :head(nullptr), tail(nullptr) {}
 
     void push(T value) {
         if (tail && head) {
-            ITEM* temp = head;
-            if (temp->value.prior < value.prior) {
-                temp = create(value);
-                temp->next = head;
-                head = temp;
-            }
-            else {
+            ITEM* tmp = head;
+            if (tmp->value.prior < value.prior) {
+                tmp = create(data);
+                tmp->next = head;
+                head = tmp;
+            } else {
                 while (temp->next) {
                     if (temp->next->value.prior < value.prior) {
-                        ITEM* t = create(value);
-                        t->next = temp->next;
-                        temp->next = t;
+                        ITEM* item = create(value);
+                        item->next = temp->next;
+                        temp->next = item;
                         break;
-                    }
-                    else {
+                    } else {
                         temp = temp->next;
                     }
                 }
@@ -53,11 +45,17 @@ class TPQueue {
                 tail->next = create(value);
                 tail = tail->next;
             }
-        }
-        else {
+        } else {
             head = create(value);
             tail = head;
         }
+    }
+    T pop() {
+        ITEM* temp = head->next;
+        T value = head->value;
+        delete head;
+        head = temp;
+        return value;
     }
 };
 
@@ -65,6 +63,5 @@ struct SYM {
     char ch;
     int prior;
 };
-
 
 #endif  // INCLUDE_TPQUEUE_H_

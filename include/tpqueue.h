@@ -16,8 +16,9 @@ class TPQueue {
         item->next = nullptr;
         return item;
     }
+
  public:
-    TPQueue: head(nullptr), tail(nullptr){}
+    TPQueue: head(nullptr), tail(nullptr) {}
 
     T pop() {
         ITEM* item = head->next;
@@ -27,33 +28,36 @@ class TPQueue {
         return value;
     }
 
-    void push(T sym) {
+    void push(T value) {
         if (tail && head) {
             ITEM* temp = head;
-            if (temp->sym.prior < sym.prior) {
-                temp = create(sym);
+            if (temp->value.prior < value.prior) {
+                temp = create(value);
                 temp->next = head;
                 head = temp;
-            } else {
+            }
+            else {
                 while (temp->next) {
-                    if (temp->next->sym.prior < sym.prior) {
-                        ITEM* t = create(sym);
+                    if (temp->next->value.prior < value.prior) {
+                        ITEM* t = create(value);
                         t->next = temp->next;
                         temp->next = t;
                         break;
-                    } else {
+                    }
+                    else {
                         temp = temp->next;
-                      }
+                    }
                 }
-              }
+            }
             if (!temp->next) {
-                tail->next = create(sym);
+                tail->next = create(value);
                 tail = tail->next;
             }
-        } else {
-            head = create(sym);
+        }
+        else {
+            head = create(value);
             tail = head;
-          }
+        }
     }
 };
 
@@ -61,5 +65,6 @@ struct SYM {
     char ch;
     int prior;
 };
+
 
 #endif  // INCLUDE_TPQUEUE_H_
